@@ -1,5 +1,5 @@
 $(document).ready(function() {
- var cars = ["mustang", "nova", "camaro"];
+ var cars = ["ford mustang", "chevrolet nova", "dodge charger"];
 
  	function makeButtons() {
         $("#buttons").empty();
@@ -36,16 +36,31 @@ $(document).ready(function() {
         var results = response.data;
 
         for (var i = 0; i < results.length; i++) {
-        var carDiv = $("<div>");
-        var p = $('<p>');
-        p.text("Rating:" + results[i].rating);
-        var carImage = $('<img>');
-        carImage.attr("src", results[i].images.fixed_height_still.url);
-        carDiv.append(p);
-        carDiv.append(carImage);
-        $("#images").prepend(carDiv);
+          var carDiv = $("<div>");
+          var p = $('<p>');
+         p.text("RATING: " + results[i].rating);
+          var carImage = $('<img>');
+          carImage.attr("data-still", results[i].images.fixed_height_still.url);
+          carImage.attr("data-animate", results[i].images.fixed_height.url);
+          carImage.attr("src", results[i].images.fixed_height_still.url);
+          carImage.attr("data-state", "still");
+          carImage.addClass("gif");
+          carDiv.append(carImage);
+          carDiv.append(p);
+          $("#images").prepend(carDiv);
     
 	  	}
+        $(".gif").on("click", function() {
+          var state = $(this).attr("data-state");
+          if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+         } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+          }
+        })
+
 	  });
 	});
 
